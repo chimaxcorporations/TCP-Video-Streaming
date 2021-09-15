@@ -17,7 +17,8 @@ zedboardClient::zedboardClient(QString ipAddress, quint16 portNumber):QObject(nu
 {
     //connect signals to slot
     connect(&socket, &QTcpSocket::connected,this, &zedboardClient::OnconnectedBoard);// Establish connection to board
-    connect(&socket, &QAbstractSocket::errorOccurred, this, &zedboardClient::errorOccurred);// what happens when there is error
+//    connect(&socket, &QAbstractSocket::errorOccurred, this, &zedboardClient::errorOccurred);// what happens when there is error
+    connect(&socket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &zedboardClient::errorOccurred);// what happens when there is error
     connect(&socket, &QTcpSocket::disconnected, this, &zedboardClient::disconnectionStatus);// Disconnect from board
     connect(&socket, &QTcpSocket::readyRead, this,  &zedboardClient::readytoRead);// Read data from board
     connect(&socket, &QTcpSocket::readChannelFinished, this,  &zedboardClient::readChannelFinished);// Read data from board
